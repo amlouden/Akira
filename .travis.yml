@@ -16,6 +16,7 @@ script:
   - cmake . -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
   - make -j$(nproc)
   - make DESTDIR=appdir -j$(nproc) install ; find appdir/
+  - mv appdir/usr/bin/com.github.alecaddd.akira appdir/usr/bin/akira
   - mkdir -p appdir/usr/share/applications ; cp data/com.github.alecaddd.akira.desktop appdir/usr/share/applications/akira.desktop
   - sed -i -e 's|com.github.alecaddd.||g' appdir/usr/share/applications/akira.desktop
   - mkdir -p ./appdir/usr/share/icons/hicolor/16x16/apps/
