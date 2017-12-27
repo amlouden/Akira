@@ -20,8 +20,6 @@ script:
   - chmod a+x linuxdeployqt-continuous-x86_64.AppImage
   - unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH
   - mkdir -p appdir/usr/share/applications ; cp data/com.github.alecaddd.akira.desktop appdir/usr/share/applications
-  - cp data/assets/icons/com.github.alecaddd.akira.png appdir/com.github.alecaddd.akira.png
-  - touch appdir/com.github.alecaddd.akira.png # Dear upstream developers, please provide an application icon
   - mkdir -p ./appdir/usr/share/icons/hicolor/16x16/apps/
   - cp data/assets/icons/16x16/com.github.alecaddd.akira.svg appdir/usr/share/icons/hicolor/16x16/apps/
   - mkdir -p ./appdir/usr/share/icons/hicolor/24x24/apps/
