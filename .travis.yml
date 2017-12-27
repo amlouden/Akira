@@ -38,7 +38,13 @@ script:
   - unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH
   - export VERSION=$(git rev-parse --short HEAD) # linuxdeployqt uses this for naming the file
   - ./linuxdeployqt-continuous-x86_64.AppImage appdir/usr/share/applications/*.desktop -verbose=2 -bundle-non-qt-libs
-  - ./linuxdeployqt-continuous-x86_64.AppImage appdir/usr/share/applications/*.desktop -verbose=2 -appimage
+# - The following lines are a workaround for: GLib-GIO-ERROR **: Settings schema 'com.github.alecaddd.akira' is not installed  
+  - ( cd ./appdir/usr/share/glib-2.0/schemas/ ; glib-compile-schemas . )
+  - ./linuxdeployqt*.AppImage --appimage-extract
+  - rm ./appdir/AppRun 
+  - wget https://github.com/AppImage/AppImageKit/releases/download/continuous/AppRun-x86_64 -O ./appdir/AppRun
+  - chmod +x ./appdir/AppRun
+  - PATH=./squashfs-root/usr/bin:$PATH ./squashfs-root/usr/bin/appimagetool -g ./appdir/
 
 after_success:
   - find appdir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
