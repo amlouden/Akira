@@ -16,29 +16,28 @@ script:
   - cmake . -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
   - make -j$(nproc)
   - make DESTDIR=appdir -j$(nproc) install ; find appdir/
-  - mkdir -p appdir/usr/share/applications ; cp data/com.github.alecaddd.akira.desktop appdir/usr/share/applications
+  - mkdir -p appdir/usr/share/applications ; cp data/com.github.alecaddd.akira.desktop appdir/usr/share/applications/akira.desktop
+  - sed -i -e 's|com.github.alecaddd.||g' appdir/usr/share/applications/akira.desktop
   - mkdir -p ./appdir/usr/share/icons/hicolor/16x16/apps/
-  - cp data/assets/icons/16x16/com.github.alecaddd.akira.svg appdir/usr/share/icons/hicolor/16x16/apps/
+  - cp data/assets/icons/16x16/com.github.alecaddd.akira.svg appdir/usr/share/icons/hicolor/16x16/apps/akira.svg
   - mkdir -p ./appdir/usr/share/icons/hicolor/24x24/apps/
-  - cp data/assets/icons/24x24/com.github.alecaddd.akira.svg appdir/usr/share/icons/hicolor/24x24/apps/
+  - cp data/assets/icons/24x24/com.github.alecaddd.akira.svg appdir/usr/share/icons/hicolor/24x24/apps/akira.svg
   - mkdir -p ./appdir/usr/share/icons/hicolor/32x32/apps/
-  - cp data/assets/icons/32x32/com.github.alecaddd.akira.svg appdir/usr/share/icons/hicolor/32x32/apps/
+  - cp data/assets/icons/32x32/com.github.alecaddd.akira.svg appdir/usr/share/icons/hicolor/32x32/apps/akira.svg
   - mkdir -p ./appdir/usr/share/icons/hicolor/48x48/apps/
-  - cp data/assets/icons/48x48/com.github.alecaddd.akira.svg appdir/usr/share/icons/hicolor/48x48/apps/
+  - cp data/assets/icons/48x48/com.github.alecaddd.akira.svg appdir/usr/share/icons/hicolor/48x48/apps/akira.svg
   - mkdir -p ./appdir/usr/share/icons/hicolor/64x64/apps/
-  - cp data/assets/icons/64x64/com.github.alecaddd.akira.svg appdir/usr/share/icons/hicolor/64x64/apps/
+  - cp data/assets/icons/64x64/com.github.alecaddd.akira.svg appdir/usr/share/icons/hicolor/64x64/apps/akira.svg
   - mkdir -p ./appdir/usr/share/icons/hicolor/128x128/apps/
-  - cp data/assets/icons/128x128/com.github.alecaddd.akira.svg appdir/usr/share/icons/hicolor/128x128/apps/
+  - cp data/assets/icons/128x128/com.github.alecaddd.akira.svg appdir/usr/share/icons/hicolor/128x128/apps/akira.svg
   - mkdir -p ./appdir/usr/share/icons/hicolor/scalable/apps/
-  - cp data/assets/icons/128x128/com.github.alecaddd.akira.svg appdir/usr/share/icons/hicolor/scalable/apps/
-  - ls -lh  "./appdir/usr/share/icons/hicolor/64x64/apps/com.github.alecaddd.akira.svg"
-  - ls -lh "./appdir/"
+  - cp data/assets/icons/128x128/com.github.alecaddd.akira.svg appdir/usr/share/icons/hicolor/scalable/apps/akira.svg
   - wget -c -nv "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
   - chmod a+x linuxdeployqt-continuous-x86_64.AppImage
   - unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH
   - export VERSION=$(git rev-parse --short HEAD) # linuxdeployqt uses this for naming the file
-  - ./linuxdeployqt-continuous-x86_64.AppImage appdir/usr/share/applications/com.github.alecaddd.akira.desktop -verbose=2 -bundle-non-qt-libs
-  - ./linuxdeployqt-continuous-x86_64.AppImage appdir/usr/share/applications/com.github.alecaddd.akira.desktop -verbose=2 -appimage
+  - ./linuxdeployqt-continuous-x86_64.AppImage appdir/usr/share/applications/*.desktop -verbose=2 -bundle-non-qt-libs
+  - ./linuxdeployqt-continuous-x86_64.AppImage appdir/usr/share/applications/*.desktop -verbose=2 -appimage
 
 after_success:
   - find appdir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
