@@ -16,9 +16,6 @@ script:
   - cmake . -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
   - make -j$(nproc)
   - make DESTDIR=appdir -j$(nproc) install ; find appdir/
-  - wget -c -nv "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
-  - chmod a+x linuxdeployqt-continuous-x86_64.AppImage
-  - unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH
   - mkdir -p appdir/usr/share/applications ; cp data/com.github.alecaddd.akira.desktop appdir/usr/share/applications
   - mkdir -p ./appdir/usr/share/icons/hicolor/16x16/apps/
   - cp data/assets/icons/16x16/com.github.alecaddd.akira.svg appdir/usr/share/icons/hicolor/16x16/apps/
@@ -34,6 +31,11 @@ script:
   - cp data/assets/icons/128x128/com.github.alecaddd.akira.svg appdir/usr/share/icons/hicolor/128x128/apps/
   - mkdir -p ./appdir/usr/share/icons/hicolor/scalable/apps/
   - cp data/assets/icons/128x128/com.github.alecaddd.akira.svg appdir/usr/share/icons/hicolor/scalable/apps/
+  - ls -lh  "./appdir/usr/share/icons/hicolor/64x64/apps/com.github.alecaddd.akira.svg"
+  - ls -lh "./appdir/"
+  - wget -c -nv "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
+  - chmod a+x linuxdeployqt-continuous-x86_64.AppImage
+  - unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH
   - export VERSION=$(git rev-parse --short HEAD) # linuxdeployqt uses this for naming the file
   - ./linuxdeployqt-continuous-x86_64.AppImage appdir/usr/share/applications/com.github.alecaddd.akira.desktop -bundle-non-qt-libs
   - ./linuxdeployqt-continuous-x86_64.AppImage appdir/usr/share/applications/com.github.alecaddd.akira.desktop -appimage
